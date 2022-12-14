@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.agafonov.spring.library.dao.BookDAO;
 import ru.agafonov.spring.library.models.Book;
-import ru.agafonov.spring.library.models.Person;
 
 import javax.validation.Valid;
 
@@ -24,17 +23,18 @@ public class BookController {
 
     @GetMapping()
     public String index(Model model){
-        model.addAttribute("book", bookDAO.index());
+        model.addAttribute("books", bookDAO.index());
+
         return "book/index";
     }
 
     @GetMapping("/new")
-    public String newPerson(@ModelAttribute("book")Book book){
+    public String newPerson(@ModelAttribute("books")Book book){
         return "book/new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("book") @Valid Book book,
+    public String create(@ModelAttribute("books") @Valid Book book,
                          BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return "book/new";
@@ -46,18 +46,20 @@ public class BookController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id){
-        model.addAttribute("book", bookDAO.show(id));
+        model.addAttribute("books", bookDAO.show(id));
         return "book/edit";
     }
 
     @GetMapping("/{id}")
     public String show(Model model, @PathVariable("id") int id){
-        model.addAttribute("book", bookDAO.show(id));
+        model.addAttribute("books", bookDAO.show(id));
+
+        //model.addAttribute("bookIsTake", )
         return "book/show";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Book book,
+    public String update(@ModelAttribute("books") @Valid Book book,
                          BindingResult bindingResult,
                          @PathVariable("id") int id){
 

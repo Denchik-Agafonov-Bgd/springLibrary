@@ -7,6 +7,16 @@
 <body>
 <p th:text="${person.getFio()+', '+person.getBirthday()}">VALUE</p>
 
+<div th:switch="${personBooks.isEmpty()}">
+    <p th:case="true">User don't take the book</p>
+    <p th:case="false">Books:</p>
+</div>
+
+<div th:each="personBook : ${personBooks}">
+    <p th:text="${personBook.getName()+', '+personBook.getAuthor()+', '+personBook.getYear()}">VALUE</p>
+</div>
+
+
 <form th:method="GET" th:action="@{/person/{id}/edit(id=${person.getId()})}">
     <input type="submit" value="Edit">
 </form>

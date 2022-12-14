@@ -5,13 +5,22 @@
     <title>Book</title>
 </head>
 <body>
-<p th:text="${person.getFio()+', '+person.getBirthday()}">VALUE</p>
+<p th:text="${books.getName()+', '+books.getAuthor()+', '+books.getYear}">VALUE</p>
 
-<form th:method="GET" th:action="@{/person/{id}/edit(id=${person.getId()})}">
+<div th:switch="${books.getPerson_id==null}">
+    <p th:case="true">User don't take the book</p>
+    <p th:case="false">Books:</p>
+</div>
+
+<!--<div th:each="personBook : ${personBooks}">
+    <p th:text="${personBook.getName()+', '+personBook.getAuthor()+', '+personBook.getYear()}">VALUE</p>
+</div>-->
+
+<form th:method="GET" th:action="@{/book/{id}/edit(id=${books.getId()})}">
     <input type="submit" value="Edit">
 </form>
 
-<form th:method="DELETE" th:action="@{/person/{id}(id=${person.getId()})}">
+<form th:method="DELETE" th:action="@{/book/{id}(id=${books.getId()})}">
     <input type="submit" value="Delete">
 </form>
 

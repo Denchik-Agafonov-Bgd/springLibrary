@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.agafonov.spring.library.models.Book;
 import ru.agafonov.spring.library.models.Person;
 
 import java.util.Date;
@@ -39,5 +40,10 @@ public class PersonDAO {
         jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
     }
 
+
+    public List<Book> showPersonBook(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id=?",new Object[]{id},
+                new BeanPropertyRowMapper<>(Book.class));
+    }
 
 }

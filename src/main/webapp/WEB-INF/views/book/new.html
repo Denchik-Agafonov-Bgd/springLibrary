@@ -6,14 +6,18 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/person}" th:object="${person}">
-    <label for="fio">Enter fio: </label>
-    <input type="text" th:field="*{fio}" id="fio"/>
-    <div style="color:red" th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}">Fio Error</div>
+<form th:method="POST" th:action="@{/book}" th:object="${books}">
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name Error</div>
     <br/>
-    <label for="birthday">Enter birthday: </label>
-    <input type="text" th:field="*{birthday}" id="birthday"/>
-    <div style="color:red" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Birthday Error</div>
+    <label for="author">Enter author: </label>
+    <input type="text" th:field="*{author}" id="author"/>
+    <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">author Error</div>
+    <br/>
+    <label for="year">Enter year: </label>
+    <input type="text" th:field="*{year}" id="year"/>
+    <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">year Error</div>
     <br/>
 
     <input type="submit" value="Create!"/>
