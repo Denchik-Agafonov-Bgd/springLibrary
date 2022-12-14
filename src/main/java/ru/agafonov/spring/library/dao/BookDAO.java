@@ -8,6 +8,7 @@ import ru.agafonov.spring.library.models.Book;
 import ru.agafonov.spring.library.models.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDAO {
@@ -37,5 +38,18 @@ public class BookDAO {
 
     public void delete(int id){
         jdbcTemplate.update("DELETE FROM Book WHERE id=?", id);
+    }
+
+    public Person bookAndPerson(int id) {
+        return jdbcTemplate.query("SELECT Person.* FROM Book JOIN Person ON Book.person_id=Person.id WHERE Book.id=?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+    }
+
+    public void releaseBook(int id) {
+        jdbcTemplate.update("UPDATE Book SET person_id=null WHERE id=?", id);
+    }
+
+    public void assign(int id, Person person) {
+        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id=?",person.getId(), id);
     }
 }

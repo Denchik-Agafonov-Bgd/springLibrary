@@ -7,13 +7,16 @@
 <body>
 <p th:text="${person.getFio()+', '+person.getBirthday()}">VALUE</p>
 
-<div th:switch="${personBooks.isEmpty()}">
-    <p th:case="true">Человек пока не взял ни одной книги</p>
-    <p th:case="false">Книги:</p>
+<div th:if="${personBooks.isEmpty()}">
+    <p>Человек пока не взял ни одной книги</p>
+    <hr/>
 </div>
 
-<div th:each="personBook : ${personBooks}">
-    <p th:text="${personBook.getName()+', '+personBook.getAuthor()+', '+personBook.getYear()}">VALUE</p>
+<div th:if="${!personBooks.isEmpty()}">
+    <p>Книги:</p>
+    <div th:each="personBook : ${personBooks}">
+        <p th:text="${personBook.getName()+', '+personBook.getAuthor()+', '+personBook.getYear()}">VALUE</p>
+    </div>
 </div>
 
 

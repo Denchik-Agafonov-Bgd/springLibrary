@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.agafonov.spring.library.dao.BookDAO;
+import ru.agafonov.spring.library.dao.PersonDAO;
 import ru.agafonov.spring.library.models.Book;
+import ru.agafonov.spring.library.models.Person;
 
 import javax.validation.Valid;
 
@@ -15,10 +17,12 @@ import javax.validation.Valid;
 public class BookController {
 
     private final BookDAO bookDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public BookController(BookDAO bookDAO) {
+    public BookController(BookDAO bookDAO, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
+        this.personDAO = personDAO;
     }
 
     @GetMapping()
@@ -51,8 +55,10 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String show(Model model, @PathVariable("id") int id){
+    public String show(Model model, @ModelAttribute("person") Person person, @PathVariable("id") int id){
         model.addAttribute("books", bookDAO.show(id));
+        model.addAttribute("booksAndPerson", bookDAO.bookAndPerson(id));
+        model.addAttribute("people", personDAO.index());
 
         //model.addAttribute("bookIsTake", )
         return "book/show";
@@ -70,10 +76,22 @@ public class BookController {
         return "redirect:/book";
     }
 
+    @PatchMapping("/{id}/release")
+    public String update(@PathVariable("id") int id){
+        bookDAO.releaseBook(id);
+        return "redirect:/book";
+    }
+
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id){
         bookDAO.delete(id);
 
         return "redirect:/book";
+    }
+
+    @PatchMapping("/{id}/assign")
+    public String assign(@PathVariable("id") int id, @ModelAttribute("person")Person person){
+        bookDAO.assign(id, person);
+        return "redirect:/book/"+id;
     }
 }

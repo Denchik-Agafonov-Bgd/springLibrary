@@ -5,16 +5,38 @@
     <title>Книга</title>
 </head>
 <body>
-<p th:text="${books.getName()+', '+books.getAuthor()+', '+books.getYear}">VALUE</p>
+<p th:text="${books.getName()+', '+books.getAuthor()+', '+books.getYear()}">VALUE</p>
 
-<div th:switch="${books.getPerson_id==null}">
-    <p th:case="true">Тест</p>
-    <p th:case="false">ТЕСТ</p>
+<div th:if="${books.getPerson_id()==null}">
+    <p>Эта книга свободна. Кому ее выдать?</p>
+
+    <!--<div th:each="person : ${people}">
+        <a  th:href="@{/person/{id}(id=${person.getId()})}"
+            th:text="${person.getFio()+', '+person.getBirthday()}">user</a>
+    </div>-->
+
+    <form th:method="Patch" th:action="@{/book/{id}/assign(id=${books.getId()})}">
+        <label for="person">Выберите человека</label>
+        <select th:object="${person}" th:field="*{id}" id="person">
+            <option th:each="person : ${people}"
+                    th:value="${person.getId()}"
+                    th:text="${person.getFio()}">
+            </option>
+        </select>
+        <input type="submit" value="Назначить книгу">
+    </form>
+
+    <hr/>
 </div>
 
-<!--<div th:each="personBook : ${personBooks}">
-    <p th:text="${personBook.getName()+', '+personBook.getAuthor()+', '+personBook.getYear()}">VALUE</p>
-</div>-->
+<div th:if="${books.getPerson_id()!=null}">
+    <p th:text="${'Эта книга сейчас у ' + booksAndPerson.getFio()}">VALUE</p>
+
+    <form th:method="Patch" th:action="@{/book/{id}/release(id=${books.getId()})}">
+        <input type="submit" value="Освободить книгу">
+    </form>
+    <hr/>
+</div>
 
 <form th:method="GET" th:action="@{/book/{id}/edit(id=${books.getId()})}">
     <input type="submit" value="Редактировать">
