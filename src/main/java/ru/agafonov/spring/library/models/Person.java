@@ -9,12 +9,12 @@ public class Person {
 
     private int id;
 
-    @NotEmpty(message = "Name should be not empty")
-    @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+ [A-Z]\\w+", message = "not valid name")
+    @NotEmpty(message = "Поле не должно быть пустым")
+    @Pattern(regexp = "[А-Я][а-я]+ [А-Я][а-я]+ [А-Я][а-я]+", message = "Некорректное имя")
     private String fio;
 
-    @Min(value = 1900, message = "Age should be greater than 1900")
-    @Max(value = 2022, message = "Age should not be max than 2022")
+    @Min(value = 1900, message = "Дата рождения должна быть позже 1900 года")
+    @Max(value = 2022, message = "Дата рождения должна быть раньше 2023 года")
     private int birthday;
 
     public Person(){}

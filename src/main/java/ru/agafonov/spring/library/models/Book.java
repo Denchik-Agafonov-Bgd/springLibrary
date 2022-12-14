@@ -17,10 +17,10 @@ public class Book {
         this.person_id = person_id;
     }
 
-    @NotEmpty(message = "Name should be not empty")
+    @NotEmpty(message = "Поле не должно быть пустым")
     private String name;
-    @NotEmpty(message = "Author should be not empty")
-    @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+", message = "not valid author")
+    @NotEmpty(message = "Поле не должно быть пустым")
+    @Pattern(regexp = "[А-Я][а-я]+ [А-Я][а-я]+", message = "Некорретное имя автора ")
     private String author;
     private int year;
 

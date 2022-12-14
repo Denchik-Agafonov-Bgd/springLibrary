@@ -9,6 +9,7 @@ import ru.agafonov.spring.library.models.Person;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonDAO {
@@ -41,9 +42,13 @@ public class PersonDAO {
     }
 
 
-    public List<Book> showPersonBook(int id) {
+    public List<Book> getPersonBook(int id) {
         return jdbcTemplate.query("SELECT * FROM Book WHERE person_id=?",new Object[]{id},
                 new BeanPropertyRowMapper<>(Book.class));
     }
 
+    public Optional<Person> getPersonByFio(String name) {
+        return jdbcTemplate.query("SELECT * FROM Person WHERE fio=?", new Object[]{name},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    }
 }

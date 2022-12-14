@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.agafonov.spring.library.dao.PersonDAO;
 import ru.agafonov.spring.library.models.Person;
+import ru.agafonov.spring.library.util.PersonValidator;
 
 import javax.validation.Valid;
 
@@ -15,10 +16,12 @@ import javax.validation.Valid;
 public class PersonController {
 
     private final PersonDAO personDAO;
+    private final PersonValidator personValidator;
 
     @Autowired
-    public PersonController(PersonDAO personDAO) {
+    public PersonController(PersonDAO personDAO, PersonValidator personValidator) {
         this.personDAO = personDAO;
+        this.personValidator = personValidator;
     }
 
     @GetMapping()
@@ -34,6 +37,8 @@ public class PersonController {
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult){
+        personValidator.validate(person, bindingResult);
+
         if(bindingResult.hasErrors())
             return "person/new";
 
@@ -52,7 +57,7 @@ public class PersonController {
     public String show(Model model, @PathVariable("id") int id){
         model.addAttribute("person", personDAO.show(id));
 
-        model.addAttribute("personBooks", personDAO.showPersonBook(id));
+        model.addAttribute("personBooks", personDAO.getPersonBook(id));
 
         return "person/show";
     }
